@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Mr. Donuts & Kolaches - Houston's Family Favorite</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--jade:#00B894;
+--jade-light:#55EFC4;
+--jade-soft:#A8E6CF;
+--pink:#FF1493;
+--pink-light:#FF69B4;
+--pink-soft:#FFB6C1;
+--navy:#1A2332;
+--navy-soft:#2D3E50;
+--cream:#FFF9F0;
+--cream-dark:#F5E6D3;
+--warm-white:#FFFEF9;
+--brown:#8B5A3C;
+--coffee:#6F4E37;
+--gold:#FFB627;
+--ease:cubic-bezier(.16,1,.3,1);
+--ease-bounce:cubic-bezier(.68,-.55,.265,1.55);
+}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-family:'Inter',sans-serif;color:var(--navy);background:var(--cream);overflow-x:hidden}
+
+/* FRIENDLY HAMBURGER MENU */
+.hamburger{position:fixed;top:24px;right:24px;width:62px;height:62px;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);cursor:pointer;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:7px;transition:all .4s var(--ease);border-radius:50%;z-index:1000;border:3px solid var(--jade);box-shadow:0 6px 24px rgba(0,184,148,.2)}
+.hamburger:hover{transform:scale(1.08);box-shadow:0 10px 36px rgba(0,184,148,.3);border-color:var(--jade-light)}
+.hamburger span{width:26px;height:3px;border-radius:3px;transition:all .4s var(--ease);background:var(--jade)}
+.hamburger.active{background:var(--navy);border-color:var(--jade-light)}
+.hamburger.active span{background:var(--jade-light)}
+.hamburger.active span:nth-child(1){transform:translateY(10px) rotate(45deg)}
+.hamburger.active span:nth-child(2){opacity:0;transform:scale(0)}
+.hamburger.active span:nth-child(3){transform:translateY(-10px) rotate(-45deg)}
+
+.menu-overlay{position:fixed;inset:0;background:rgba(26,35,50,.8);opacity:0;visibility:hidden;transition:all .5s var(--ease);z-index:998;backdrop-filter:blur(12px)}
+.menu-overlay.active{opacity:1;visibility:visible}
+
+.menu{position:fixed;top:16px;right:-100%;width:clamp(350px,90vw,440px);max-height:calc(100vh - 32px);background:linear-gradient(135deg,rgba(255,255,255,.98),rgba(255,249,240,.95));backdrop-filter:blur(30px);border:3px solid var(--jade);border-radius:28px;box-shadow:-12px 0 60px rgba(0,184,148,.25);transition:right .6s var(--ease);z-index:999;padding:36px 28px;overflow-y:auto}
+.menu.active{right:16px}
+
+.menu-header{display:flex;justify-content:center;align-items:center;margin-bottom:32px;padding-bottom:24px;border-bottom:3px solid rgba(0,184,148,.2)}
+
+.menu-logo{width:140px;height:140px;filter:drop-shadow(0 4px 16px rgba(0,184,148,.3))}
+.menu-logo img{width:100%;height:100%;object-fit:contain;border-radius:0;background:transparent;padding:0;border:none}
+
+.menu-items{list-style:none}
+.menu-items li{margin-bottom:8px}
+.menu-items a{display:flex;align-items:center;gap:clamp(14px,3.5vw,18px);padding:clamp(18px,4vw,24px) clamp(22px,5vw,30px);font-family:'Poppins',sans-serif;font-size:clamp(1.3rem,3.6vw,1.75rem);font-weight:700;color:var(--navy);text-decoration:none;border-radius:16px;transition:all .35s var(--ease);text-transform:uppercase;letter-spacing:0.05em;position:relative;overflow:hidden;line-height:1.2;background:rgba(255,255,255,.75);border:2px solid transparent;box-shadow:0 3px 10px rgba(0,0,0,.06)}
+.menu-items a::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--jade),var(--jade-light));opacity:0;transition:opacity .35s var(--ease)}
+.menu-items a:hover{color:white;transform:translateX(12px);box-shadow:0 6px 20px rgba(0,184,148,.25);border-color:var(--jade-light)}
+.menu-items a:hover::before{opacity:1}
+.menu-items a:hover .menu-item-icon{transform:scale(1.15) rotate(5deg)}
+
+.menu-item-icon{width:clamp(44px,9vw,54px);height:clamp(44px,9vw,54px);flex-shrink:0;border-radius:14px;background:linear-gradient(135deg,rgba(0,184,148,.12),rgba(85,239,196,.08));padding:7px;display:flex;align-items:center;justify-content:center;transition:all .35s var(--ease-bounce);border:2px solid rgba(0,184,148,.2);position:relative;z-index:1}
+.menu-item-icon img{width:100%;height:100%;object-fit:contain}
+
+.menu-item-content{flex:1;display:flex;flex-direction:column;gap:3px;position:relative;z-index:1}
+.menu-item-text{display:block;line-height:1.1}
+.menu-item-subtext{display:block;font-size:clamp(.95rem,2.5vw,1.25rem);opacity:.7;text-transform:none;letter-spacing:0.02em;font-weight:600;font-family:'Inter',sans-serif}
+
+/* DRAMATIC HERO ENTRANCE */
+.hero-section{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:linear-gradient(135deg,#1A2332 0%,#2D3E50 40%,#1A2332 100%);padding:0 5% 60px}
+.hero-section::before{content:'';position:absolute;inset:0;background-image:
+radial-gradient(circle at 25% 35%,rgba(0,184,148,.18) 0%,transparent 45%),
+radial-gradient(circle at 75% 65%,rgba(255,20,147,.12) 0%,transparent 50%),
+radial-gradient(circle at 50% 50%,rgba(255,182,39,.08) 0%,transparent 60%);
+animation:gentlePulse 10s ease-in-out infinite}
+@keyframes gentlePulse{0%,100%{opacity:.6}50%{opacity:.85}}
+
+.hero-content{max-width:1200px;margin:0 auto;text-align:center;position:relative;z-index:2;padding-top:clamp(60px,10vh,100px)}
+
+.hero-logo{max-width:clamp(280px,55vw,520px);margin:0 auto clamp(20px,3vw,30px);filter:drop-shadow(0 20px 60px rgba(0,184,148,.5));animation:logoDramaticEntrance 1.8s var(--ease-bounce) forwards;position:relative;z-index:3;opacity:0}
+.hero-logo img{width:100%;height:auto;display:block;border-radius:0;background:transparent;padding:0;box-shadow:none;border:none;object-fit:contain}
+@keyframes logoDramaticEntrance{
+0%{opacity:0;transform:scale(.3) translateY(-80px) rotate(-25deg)}
+50%{opacity:1;transform:scale(1.15) translateY(10px) rotate(5deg)}
+75%{transform:scale(.95) translateY(-5px) rotate(-2deg)}
+100%{opacity:1;transform:scale(1) translateY(0) rotate(0deg)}
+}
+
+.hero-title-container{position:relative;margin-bottom:clamp(16px,3vw,24px)}
+.hero-title{font-family:'Poppins',sans-serif;font-size:clamp(3.6rem,10.5vw,8.5rem);font-weight:900;color:var(--warm-white);text-shadow:0 6px 20px rgba(0,0,0,.3);letter-spacing:0.01em;line-height:.95;display:block;margin-bottom:clamp(8px,1.5vw,14px);animation:titleDramaticSlide 1.4s var(--ease-bounce) .5s backwards;text-transform:uppercase}
+@keyframes titleDramaticSlide{
+0%{opacity:0;transform:translateX(-100px) scale(.8) rotate(-8deg)}
+60%{opacity:1;transform:translateX(10px) scale(1.05) rotate(2deg)}
+100%{opacity:1;transform:translateX(0) scale(1) rotate(0deg)}
+}
+
+/* KOLACHES - JADE COLOR WITH PINK TRIM */
+.hero-title-kolaches{font-family:'Poppins',sans-serif;font-size:clamp(2.8rem,8.5vw,6.8rem);font-weight:900;
+color:var(--jade-light);
+-webkit-text-stroke:clamp(1px,.25vw,2px) var(--pink);
+paint-order:stroke fill;
+text-shadow:
+0 0 40px rgba(85,239,196,.7),
+0 6px 16px rgba(0,0,0,.35);
+letter-spacing:0.04em;line-height:.95;display:block;animation:kolachesDramaticPop 1.5s var(--ease-bounce) .8s backwards;text-transform:uppercase;position:relative}
+@keyframes kolachesDramaticPop{
+0%{opacity:0;transform:scale(.5) translateY(50px) rotate(15deg)}
+50%{opacity:1;transform:scale(1.2) translateY(-10px) rotate(-5deg)}
+100%{opacity:1;transform:scale(1) translateY(0) rotate(0deg)}
+}
+.hero-title-kolaches::after{content:'';position:absolute;bottom:-6px;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--jade-light),#00FFFF);box-shadow:0 0 20px var(--jade-light);animation:underlineGrow 1.2s var(--ease) 2.5s forwards}
+@keyframes underlineGrow{to{width:100%}}
+
+/* HOUSTON'S FAMILY FAVORITE - JADE COLOR WITH PINK TRIM */
+.hero-subtitle{font-family:'Poppins',sans-serif;font-size:clamp(1.4rem,3.8vw,2.5rem);font-weight:700;
+color:var(--jade-light);
+-webkit-text-stroke:clamp(.5px,.12vw,1px) var(--pink);
+paint-order:stroke fill;
+text-shadow:0 0 25px rgba(85,239,196,.5);
+letter-spacing:0.08em;line-height:1.3;margin-bottom:clamp(12px,2.5vw,18px);animation:subtitleDramaticFade 1.3s var(--ease) 1.2s backwards}
+@keyframes subtitleDramaticFade{
+0%{opacity:0;transform:translateY(30px) scale(.9)}
+100%{opacity:1;transform:translateY(0) scale(1)}
+}
+
+.hero-tagline{font-family:'Inter',sans-serif;font-size:clamp(1.1rem,2.6vw,1.5rem);color:rgba(255,255,255,.8);font-weight:500;letter-spacing:0.04em;margin-bottom:clamp(32px,5.5vw,48px);animation:taglineFade 1.2s var(--ease) 1.5s backwards;line-height:1.7}
+@keyframes taglineFade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* CLEAN MODERN BUTTONS - WIDER & NO WRAP */
+.hero-cta-container{display:flex;gap:clamp(18px,4vw,28px);justify-content:center;flex-wrap:wrap;position:relative;z-index:3;margin:clamp(36px,6vw,52px) auto 0}
+.hero-cta{display:inline-flex;align-items:center;gap:clamp(14px,3vw,18px);padding:clamp(22px,4.8vw,32px) clamp(48px,9vw,64px);text-decoration:none;font-family:'Poppins',sans-serif;font-weight:700;text-transform:uppercase;border-radius:18px;transition:all .35s var(--ease);position:relative;overflow:hidden;letter-spacing:0.06em;min-width:clamp(280px,52vw,360px);max-width:440px;justify-content:center;font-size:clamp(1.15rem,2.9vw,1.6rem);background:white;color:var(--navy);border:3px solid var(--jade);box-shadow:0 6px 24px rgba(0,184,148,.3);animation:ctaStagger .8s var(--ease-bounce) backwards;min-height:clamp(76px,12vw,96px);white-space:nowrap}
+.hero-cta:nth-child(1){animation-delay:1.8s}
+.hero-cta:nth-child(2){animation-delay:2s}
+@keyframes ctaStagger{
+0%{opacity:0;transform:translateY(40px) scale(.8)}
+60%{transform:translateY(-5px) scale(1.05)}
+100%{opacity:1;transform:translateY(0) scale(1)}
+}
+.hero-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--jade),var(--jade-light));opacity:0;transition:opacity .35s var(--ease)}
+.hero-cta:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 12px 40px rgba(0,184,148,.45);border-color:var(--jade-light);color:white}
+.hero-cta:hover::before{opacity:1}
+.hero-cta:hover .hero-cta-icon{transform:scale(1.12)}
+.hero-cta-content{position:relative;z-index:1;display:flex;align-items:center;gap:clamp(14px,3vw,18px);white-space:nowrap}
+.hero-cta-icon{width:clamp(30px,5.8vw,38px);height:clamp(30px,5.8vw,38px);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .35s var(--ease)}
+.hero-cta-icon svg{width:100%;height:100%;fill:currentColor}
+.hero-cta-text{display:flex;flex-direction:column;align-items:flex-start;gap:3px;white-space:nowrap}
+.hero-cta-main-text{font-size:1em;line-height:1;letter-spacing:0.08em;white-space:nowrap}
+.hero-cta-sub-text{font-size:.52em;opacity:.75;font-weight:600;letter-spacing:0.04em;font-family:'Inter',sans-serif;white-space:nowrap}
+
+/* HIGH-TECH FADING REVIEW CAROUSEL - 2.5 SECONDS EACH */
+.reviews-section{padding:clamp(50px,8vw,80px) 0;background:linear-gradient(180deg,var(--cream) 0%,var(--warm-white) 50%,var(--cream) 100%);position:relative;overflow:hidden}
+
+.reviews-container{max-width:1400px;margin:0 auto;padding:0 5%;position:relative;z-index:1}
+
+.section-header{text-align:center;margin-bottom:clamp(40px,7vw,60px)}
+.section-label{font-family:'Poppins',sans-serif;font-size:clamp(1rem,2.4vw,1.3rem);color:var(--jade);text-transform:uppercase;letter-spacing:.24em;margin-bottom:16px;font-weight:700}
+.section-title{font-family:'Poppins',sans-serif;font-size:clamp(3.6rem,8.8vw,6.2rem);font-weight:900;color:var(--navy);letter-spacing:0;line-height:1;text-transform:uppercase}
+.section-subtitle{font-family:'Inter',sans-serif;font-size:clamp(1.35rem,3.2vw,2.1rem);color:var(--navy-soft);margin-top:16px;font-weight:600;letter-spacing:0.02em}
+
+.reviews-carousel-container{max-width:900px;margin:0 auto;position:relative;min-height:clamp(380px,52vw,480px);padding:clamp(28px,5vw,44px) 0}
+.reviews-carousel{position:relative;width:100%;height:100%}
+
+.review-card{position:absolute;top:0;left:0;width:100%;background:white;border-radius:24px;padding:clamp(36px,6vw,48px);box-shadow:0 8px 32px rgba(0,0,0,.08);border-top:4px solid var(--jade);
+opacity:0;
+transform:scale(.92) translateY(30px);
+transition:opacity 1s var(--ease),transform 1s var(--ease),visibility 0s 1s;
+visibility:hidden;
+pointer-events:none}
+
+.review-card.active{
+opacity:1;
+transform:scale(1) translateY(0);
+transition:opacity 1s var(--ease),transform 1s var(--ease),visibility 0s;
+visibility:visible;
+pointer-events:auto}
+
+.review-stars{color:var(--gold);font-size:clamp(1.35rem,2.9vw,1.85rem);margin-bottom:clamp(18px,3.5vw,24px);letter-spacing:4px}
+
+.review-text{font-family:'Inter',sans-serif;font-size:clamp(1.08rem,2.4vw,1.35rem);line-height:1.75;color:var(--navy);font-weight:500;margin-bottom:clamp(24px,4.5vw,32px)}
+
+.review-author{font-family:'Poppins',sans-serif;font-size:clamp(1.02rem,2.3vw,1.3rem);font-weight:700;color:var(--jade);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:7px}
+
+.review-date{font-size:clamp(.94rem,2.1vw,1.1rem);color:var(--navy-soft);font-weight:600;opacity:.7}
+
+/* FRIENDLY FLIP CARDS - NO PINK */
+.menu-cards-section{padding:clamp(50px,8vw,80px) 5%;background:var(--warm-white);position:relative}
+
+.cards-container{max-width:1400px;margin:0 auto;position:relative;z-index:1}
+
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(36px,7vw,52px);margin-top:clamp(36px,6vw,50px);align-items:stretch}
+
+.menu-card{perspective:2500px;cursor:pointer;height:clamp(420px,58vw,520px)}
+.menu-card-inner{position:relative;width:100%;height:100%;transition:transform .85s var(--ease);transform-style:preserve-3d;-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform}
+.menu-card.flipped .menu-card-inner{transform:rotateY(180deg)}
+
+.menu-card-front,.menu-card-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:26px;overflow:hidden;box-shadow:0 12px 48px rgba(0,0,0,.12);border:3px solid var(--jade)}
+
+.menu-card-front{background:white}
+.menu-card-back{background:white;transform:rotateY(180deg);padding:clamp(24px,4.5vw,32px);display:flex;flex-direction:column;min-height:100%}
+
+.menu-card-front-header{display:flex;justify-content:space-between;align-items:center;padding:clamp(20px,4.5vw,28px);background:linear-gradient(135deg,var(--navy),var(--navy-soft));position:relative}
+.menu-card-front-title{font-family:'Poppins',sans-serif;font-size:clamp(1.9rem,4.8vw,2.9rem);color:var(--jade-light);
+-webkit-text-stroke:clamp(.8px,.18vw,1.2px) var(--pink);
+paint-order:stroke fill;
+text-shadow:0 0 25px rgba(85,239,196,.5);
+text-transform:uppercase;letter-spacing:0.06em;flex:1}
+.menu-card-front-flip{display:flex;align-items:center;gap:9px;font-family:'Poppins',sans-serif;font-size:clamp(.9rem,2.1vw,1.1rem);font-weight:700;color:rgba(255,255,255,.85);text-transform:uppercase;letter-spacing:0.12em}
+
+.flip-icon{width:clamp(24px,4.8vw,30px);height:clamp(24px,4.8vw,30px);animation:flipPulse 2.6s ease-in-out infinite}
+@keyframes flipPulse{0%,100%{transform:scale(1) rotate(0deg)}50%{transform:scale(1.15) rotate(180deg)}}
+.flip-icon svg{width:100%;height:100%;fill:none;stroke:var(--jade-light);stroke-width:2.5;stroke-linecap:round}
+
+.menu-image-container{height:calc(100% - clamp(68px,12vw,96px));overflow:hidden;background:linear-gradient(135deg,#F5F5F5,#FFFFFF);display:flex;align-items:center;justify-content:center;padding:clamp(8px,1.5vw,12px)}
+.menu-image{width:100%;height:100%;object-fit:contain;object-position:center;transition:transform .6s var(--ease);filter:contrast(1.08) saturate(1.15) brightness(1.02);max-width:100%;max-height:100%}
+.menu-card:hover .menu-image{transform:scale(1.06);filter:contrast(1.12) saturate(1.2) brightness(1.05)}
+
+.menu-back-header{text-align:center;margin-bottom:clamp(16px,3vw,20px)}
+.menu-back-label{font-family:'Poppins',sans-serif;font-size:clamp(.9rem,2.1vw,1.1rem);color:var(--jade);text-transform:uppercase;letter-spacing:0.2em;font-weight:700;margin-bottom:8px}
+.menu-back-title{font-family:'Poppins',sans-serif;font-size:clamp(2rem,5vw,3rem);color:var(--navy);text-transform:uppercase;margin-bottom:12px;line-height:1;letter-spacing:0.03em;font-weight:900}
+
+.menu-back-description{font-family:'Inter',sans-serif;font-size:clamp(1rem,2.2vw,1.2rem);line-height:1.65;color:var(--navy);font-weight:500;margin-bottom:clamp(16px,3.5vw,20px);max-height:clamp(140px,28vw,180px);overflow-y:auto}
+.menu-back-description p{margin-bottom:7px}
+
+.menu-back-button{display:inline-flex;align-items:center;gap:10px;padding:clamp(14px,3.2vw,18px) clamp(28px,5.5vw,36px);background:linear-gradient(135deg,var(--jade),var(--jade-light));color:white;text-decoration:none;border-radius:14px;font-family:'Poppins',sans-serif;font-size:clamp(1rem,2.2vw,1.2rem);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;transition:all .35s var(--ease);box-shadow:0 6px 24px rgba(0,184,148,.35);border:none;margin-top:auto;align-self:center;cursor:pointer}
+.menu-back-button:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 10px 36px rgba(0,184,148,.5);background:linear-gradient(135deg,var(--jade-light),var(--jade-soft))}
+.menu-back-button svg{width:18px;height:18px;fill:currentColor}
+
+/* EXTERNAL MENU BUTTONS (BELOW CARDS) - WIDER & NO WRAP */
+.menu-external-button{display:inline-flex;align-items:center;justify-content:center;gap:clamp(12px,2.5vw,16px);padding:clamp(18px,4vw,24px) clamp(48px,9vw,64px);background:linear-gradient(135deg,var(--jade),var(--jade-light));color:white;border-radius:16px;font-family:'Poppins',sans-serif;font-size:clamp(1.2rem,2.8vw,1.55rem);font-weight:800;text-transform:uppercase;letter-spacing:0.08em;transition:all .35s var(--ease);box-shadow:0 8px 32px rgba(0,184,148,.4);border:3px solid var(--jade-light);cursor:pointer;margin:clamp(20px,3.5vw,28px) auto 0;position:relative;min-width:clamp(320px,62vw,420px);max-width:480px;width:90%;min-height:clamp(68px,12vw,82px);white-space:nowrap}
+.menu-external-button:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 14px 48px rgba(0,184,148,.6);background:linear-gradient(135deg,var(--jade-light),var(--jade-soft));border-color:var(--jade-soft)}
+.menu-external-button span{white-space:nowrap;overflow:visible}
+.menu-external-button svg{width:clamp(24px,4.5vw,30px);height:clamp(24px,4.5vw,30px);fill:currentColor;transition:transform .3s var(--ease);flex-shrink:0}
+.menu-external-button:hover svg{transform:translateX(4px) scale(1.1)}
+
+.menu-back-footer{text-align:center;padding-top:clamp(12px,2.5vw,16px);border-top:2px solid rgba(0,184,148,.15);margin-top:clamp(12px,2.5vw,16px)}
+.menu-back-hint{font-family:'Poppins',sans-serif;font-size:clamp(.85rem,1.9vw,1rem);color:var(--navy-soft);font-weight:600;text-transform:uppercase;letter-spacing:0.1em;opacity:.6}
+
+/* LOCATION CARDS - NO PINK */
+.locations-section{padding:clamp(50px,8vw,80px) 5%;background:linear-gradient(135deg,var(--cream) 0%,var(--warm-white) 100%);position:relative}
+
+.locations-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:clamp(36px,7vw,52px);margin-top:clamp(36px,6vw,50px);align-items:stretch}
+
+.location-card{background:white;padding:clamp(40px,7vw,52px);border-radius:26px;box-shadow:0 10px 40px rgba(0,0,0,.1);transition:all .4s var(--ease);border-top:5px solid var(--jade);position:relative;display:flex;flex-direction:column;min-height:clamp(420px,55vw,480px)}
+.location-card:hover{transform:translateY(-8px);box-shadow:0 18px 60px rgba(0,184,148,.22)}
+
+.location-card h3{font-family:'Poppins',sans-serif;font-size:clamp(2.1rem,5.1vw,3.1rem);color:var(--navy);margin-bottom:clamp(28px,5vw,36px);text-transform:uppercase;line-height:1.1;letter-spacing:0.04em;font-weight:900}
+.location-card h3 span{display:block;font-size:clamp(1.25rem,2.9vw,1.85rem);color:var(--jade);opacity:.9;margin-top:9px;font-weight:700;letter-spacing:0.1em}
+
+.location-card p{font-family:'Inter',sans-serif;font-size:clamp(1.12rem,2.6vw,1.4rem);line-height:1.9;color:var(--navy);margin-bottom:clamp(18px,3.5vw,22px);font-weight:500}
+.location-card p strong{color:var(--coffee);font-weight:800}
+.location-card a{color:var(--jade);text-decoration:none;font-weight:800;transition:color .3s}
+.location-card a:hover{color:var(--jade-light)}
+
+/* ORDER YOUR WAY - JADE COLOR WITH PINK TRIM */
+.ordering-section{padding:clamp(50px,8vw,80px) 5%;background:var(--navy);position:relative;overflow:hidden}
+.ordering-section::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 30% 40%,rgba(0,184,148,.15) 0%,transparent 50%),radial-gradient(circle at 70% 60%,rgba(85,239,196,.1) 0%,transparent 50%)}
+
+.ordering-container{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+
+.ordering-title{font-family:'Poppins',sans-serif;font-size:clamp(3.2rem,8.2vw,5.8rem);
+color:var(--jade-light);
+-webkit-text-stroke:clamp(1px,.2vw,1.5px) var(--pink);
+paint-order:stroke fill;
+text-shadow:0 0 35px rgba(85,239,196,.6);
+text-align:center;margin-bottom:clamp(36px,6vw,56px);text-transform:uppercase;letter-spacing:0.05em;font-weight:900}
+
+.ordering-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:clamp(28px,6vw,36px);align-items:stretch}
+
+.ordering-option{background:white;padding:clamp(32px,6vw,44px);border-radius:22px;text-align:center;transition:all .4s var(--ease);box-shadow:0 8px 32px rgba(0,0,0,.15);border:3px solid var(--jade);display:flex;flex-direction:column;min-height:clamp(380px,50vw,440px);justify-content:space-between}
+.ordering-option:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 16px 56px rgba(0,184,148,.35)}
+
+.ordering-option-icon{width:clamp(62px,13vw,78px);height:clamp(62px,13vw,78px);margin:0 auto clamp(24px,4.5vw,32px);border-radius:50%;background:linear-gradient(135deg,var(--jade),var(--jade-light));display:flex;align-items:center;justify-content:center;box-shadow:0 6px 24px rgba(0,184,148,.4);border:3px solid var(--jade-light);flex-shrink:0}
+.ordering-option-icon svg{width:50%;height:50%;fill:white}
+
+.ordering-option h3{font-family:'Poppins',sans-serif;font-size:clamp(1.55rem,3.7vw,2.3rem);color:var(--navy);margin-bottom:clamp(14px,2.8vw,18px);text-transform:uppercase;letter-spacing:0.06em;font-weight:800;min-height:clamp(44px,7vw,60px);display:flex;align-items:center;justify-content:center}
+
+.ordering-option p{font-family:'Inter',sans-serif;font-size:clamp(.98rem,2.2vw,1.18rem);color:var(--navy-soft);font-weight:500;margin-bottom:clamp(24px,4.5vw,32px);line-height:1.7;flex-grow:1}
+
+.ordering-option a{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:clamp(16px,3.5vw,20px) clamp(40px,7.5vw,52px);background:linear-gradient(135deg,var(--jade),var(--jade-light));color:white;text-decoration:none;border-radius:14px;font-family:'Poppins',sans-serif;font-size:clamp(1.02rem,2.3vw,1.22rem);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;transition:all .35s var(--ease);box-shadow:0 6px 20px rgba(0,184,148,.4);width:100%;max-width:320px;margin:auto auto 0;min-height:54px;white-space:nowrap}
+.ordering-option a:hover{background:linear-gradient(135deg,var(--jade-light),var(--jade-soft));transform:scale(1.04);box-shadow:0 10px 32px rgba(0,184,148,.6)}
+
+/* DRAMATIC FOOTER */
+.footer{background:linear-gradient(135deg,var(--navy) 0%,#253444 50%,var(--navy) 100%);padding:clamp(36px,6vw,48px) 5%;text-align:center;position:relative;overflow:hidden}
+.footer::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 25% 35%,rgba(0,184,148,.12) 0%,transparent 45%),radial-gradient(circle at 75% 65%,rgba(85,239,196,.08) 0%,transparent 50%);animation:footerGlow 12s ease-in-out infinite alternate}
+@keyframes footerGlow{0%{opacity:.4}100%{opacity:.75}}
+
+.footer-content{max-width:1000px;margin:0 auto;position:relative;z-index:1}
+
+.footer-logo{width:clamp(180px,35vw,260px);height:clamp(180px,35vw,260px);margin:0 auto clamp(6px,1vw,8px);filter:drop-shadow(0 12px 40px rgba(0,184,148,.5));animation:footerLogoEntrance 2s var(--ease-bounce) forwards;opacity:0}
+.footer-logo img{width:100%;height:100%;object-fit:contain;border-radius:0;background:transparent;padding:0;box-shadow:none;border:none}
+@keyframes footerLogoEntrance{
+0%{opacity:0;transform:scale(.4) translateY(60px) rotate(-30deg)}
+50%{opacity:1;transform:scale(1.12) translateY(-8px) rotate(8deg)}
+75%{transform:scale(.96) translateY(4px) rotate(-3deg)}
+100%{opacity:1;transform:scale(1) translateY(0) rotate(0deg)}
+}
+
+/* FOOTER TITLE - JADE COLOR WITH PINK TRIM */
+.footer-title{font-family:'Poppins',sans-serif;font-size:clamp(2.7rem,6.6vw,4.3rem);
+color:var(--jade-light);
+-webkit-text-stroke:clamp(.8px,.18vw,1.2px) var(--pink);
+paint-order:stroke fill;
+text-shadow:0 0 30px rgba(85,239,196,.5);
+letter-spacing:0.06em;text-transform:uppercase;margin:0 0 clamp(12px,2vw,18px);font-weight:900}
+
+.footer-subtitle{font-family:'Poppins',sans-serif;font-size:clamp(1.35rem,3.2vw,2.1rem);color:rgba(255,255,255,.85);font-weight:700;letter-spacing:0.08em;margin-bottom:clamp(24px,4.5vw,36px);text-transform:uppercase}
+
+.footer-info{color:rgba(255,255,255,.8);font-family:'Inter',sans-serif;font-size:clamp(1.08rem,2.5vw,1.38rem);line-height:2.1;font-weight:500;margin-bottom:clamp(16px,3vw,24px)}
+
+.footer-phone{color:var(--jade-light);text-decoration:none;font-weight:800;font-size:clamp(1.22rem,2.9vw,1.56rem);transition:color .3s;display:inline-block}
+.footer-phone:hover{color:var(--jade-soft)}
+
+.footer-credit{margin-top:clamp(28px,5.5vw,40px);padding-top:clamp(24px,4.5vw,32px);border-top:2px solid rgba(0,184,148,.25);font-family:'Poppins',sans-serif;font-size:clamp(1.02rem,2.4vw,1.28rem);color:rgba(255,255,255,.65);font-weight:600;letter-spacing:0.06em}
+.footer-credit a{color:var(--jade-light);text-decoration:none;font-weight:700;transition:color .3s}
+.footer-credit a:hover{color:var(--jade-soft)}
+
+.fade-element{opacity:0;transform:translateY(40px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+.fade-element.visible{opacity:1;transform:translateY(0)}
+
+/* PERFECT RESPONSIVE - ALL DEVICES */
+@media (max-width:768px){
+.menu{padding:32px 24px}
+.hero-cta-container{flex-direction:column;align-items:stretch}
+.hero-cta{min-width:auto;width:100%;max-width:400px;margin:0 auto}
+.menu-grid{grid-template-columns:1fr}
+.ordering-grid{grid-template-columns:1fr}
+.locations-grid{grid-template-columns:1fr}
+.menu-card-back{padding:20px}
+.menu-back-description{max-height:120px;font-size:.95rem}
+.menu-back-button{padding:12px 24px;font-size:.95rem}
+.menu-external-button{padding:clamp(16px,3.5vw,20px) clamp(44px,8vw,56px);font-size:1.12rem;width:92%;max-width:380px;margin-top:clamp(18px,3.5vw,24px);min-height:64px;white-space:nowrap}
+.menu-external-button svg{width:22px;height:22px}
+.ordering-option{min-height:360px}
+.location-card{min-height:400px}
+}
+
+@media (max-width:480px){
+.hamburger{top:20px;right:20px;width:56px;height:56px}
+.menu{top:12px;width:calc(100vw - 24px)}
+.menu.active{right:12px}
+.menu-card{height:clamp(380px,95vw,450px)}
+.menu-card-back{padding:18px}
+.menu-back-title{font-size:1.75rem}
+.menu-back-description{max-height:100px;font-size:.9rem;line-height:1.5}
+.menu-back-button{padding:10px 20px;font-size:.9rem}
+.menu-external-button{padding:15px 38px;font-size:1.02rem;width:94%;max-width:360px;margin-top:16px;min-height:60px;white-space:nowrap}
+.menu-external-button svg{width:20px;height:20px}
+.menu-back-footer{padding-top:10px;margin-top:10px}
+.ordering-option{min-height:340px;padding:24px}
+.location-card{min-height:380px;padding:32px}
+.hero-cta{min-height:70px}
+}
+
+@media (min-width:1920px){
+.hero-content{max-width:1400px}
+.reviews-container,.cards-container,.ordering-container{max-width:1600px}
+}
+
+/* HEADER CART */
+.header-cart{position:fixed;top:24px;right:96px;width:62px;height:62px;background:linear-gradient(135deg,#00B894,#55EFC4);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s ease;border-radius:50%;z-index:1000;border:3px solid #55EFC4;box-shadow:0 6px 24px rgba(0,184,148,.4);color:white}
+.header-cart:hover{transform:scale(1.1);box-shadow:0 8px 32px rgba(0,184,148,.6)}
+.header-cart svg{width:28px;height:28px}
+.header-cart-count{position:absolute;top:-6px;right:-6px;background:#FF1493;color:white;font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:800;min-width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid white;opacity:0;transform:scale(0);transition:all .3s ease}
+.header-cart-count.active{opacity:1;transform:scale(1)}
+.cart-sidebar{position:fixed;top:0;right:-100%;width:min(400px,90vw);height:100vh;background:white;box-shadow:-8px 0 32px rgba(0,0,0,.2);z-index:1001;transition:right .4s ease;display:flex;flex-direction:column}
+.cart-sidebar.active{right:0}
+.cart-sidebar-header{padding:24px;background:linear-gradient(135deg,#1A2332,#2D3E50);color:white;display:flex;justify-content:space-between;align-items:center}
+.cart-sidebar-header h3{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:800;text-transform:uppercase;margin:0}
+.cart-close{background:none;border:none;color:white;font-size:2rem;cursor:pointer;width:40px;height:40px;display:flex;align-items:center;justify-content:center;padding:0}
+.cart-items{flex:1;overflow-y:auto;padding:20px}
+.cart-empty{text-align:center;color:#2D3E50;padding:40px 20px;font-family:'Inter',sans-serif}
+.cart-item{background:#FFF9F0;padding:16px;border-radius:12px;margin-bottom:12px;border:2px solid #55EFC4}
+.cart-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cart-item-name{font-family:'Poppins',sans-serif;font-weight:700;color:#1A2332;flex:1;font-size:1rem}
+.cart-item-remove{background:none;border:none;color:#FF1493;font-size:1.5rem;cursor:pointer;width:30px;height:30px;padding:0;line-height:1}
+.cart-item-details{display:flex;justify-content:space-between;align-items:center}
+.cart-item-qty{display:flex;align-items:center;gap:10px}
+.cart-item-qty button{background:#00B894;color:white;border:none;width:32px;height:32px;border-radius:6px;font-size:1.2rem;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0}
+.cart-item-qty button:hover{background:#55EFC4}
+.cart-item-qty span{font-family:'Poppins',sans-serif;font-weight:700;min-width:30px;text-align:center;font-size:1rem}
+.cart-item-price{font-family:'Poppins',sans-serif;font-weight:800;color:#00B894;font-size:1.2rem}
+.cart-footer{padding:20px;border-top:3px solid #00B894;background:#FFF9F0}
+.cart-total{display:flex;justify-content:space-between;margin-bottom:16px;font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:800;color:#1A2332}
+.cart-checkout{width:100%;padding:16px;background:linear-gradient(135deg,#00B894,#55EFC4);color:white;border:none;border-radius:14px;font-family:'Poppins',sans-serif;font-size:1.2rem;font-weight:700;text-transform:uppercase;cursor:pointer}
+.cart-checkout:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,184,148,.5)}
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;opacity:0;visibility:hidden;transition:all .4s ease;backdrop-filter:blur(4px)}
+.cart-overlay.active{opacity:1;visibility:visible}
+.menu-modal{position:fixed;inset:0;z-index:1002;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .4s ease}
+.menu-modal.active{opacity:1;visibility:visible}
+.menu-modal-overlay{position:absolute;inset:0;background:rgba(26,35,50,.92);backdrop-filter:blur(12px);cursor:pointer}
+.menu-modal-content{position:relative;width:min(900px,92vw);max-height:90vh;background:white;border-radius:24px;overflow:hidden;display:flex;flex-direction:column;border:4px solid #55EFC4;animation:modalSlide .5s ease}
+@keyframes modalSlide{from{transform:translateY(40px) scale(.95);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.menu-modal-close{position:absolute;top:20px;right:20px;background:#FF1493;color:white;border:none;width:44px;height:44px;border-radius:50%;font-size:1.5rem;cursor:pointer;z-index:10;display:flex;align-items:center;justify-content:center;padding:0;font-weight:700;transition:all .3s ease}
+.menu-modal-close:hover{transform:rotate(90deg) scale(1.1)}
+.menu-modal-header{padding:40px;background:linear-gradient(135deg,#1A2332,#2D3E50);color:white;text-align:center}
+.menu-modal-header h2{font-family:'Poppins',sans-serif;font-size:clamp(2rem,5vw,3rem);font-weight:900;color:#55EFC4;text-transform:uppercase;margin:0 0 8px 0}
+.menu-modal-header p{font-size:1.2rem;color:rgba(255,255,255,.85);margin:0;font-family:'Inter',sans-serif}
+.menu-modal-items{flex:1;overflow-y:auto;padding:30px}
+.menu-item-card{background:#FFF9F0;border-radius:16px;padding:24px;margin-bottom:20px;border:3px solid #55EFC4;transition:all .3s ease}
+.menu-item-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,184,148,.2)}
+.menu-item-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:12px}
+.menu-item-title{font-family:'Poppins',sans-serif;font-size:1.4rem;font-weight:800;color:#1A2332;flex:1;line-height:1.2}
+.menu-item-price{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:900;color:#00B894;white-space:nowrap}
+.menu-item-rating{color:#FFB627;font-weight:700;margin-bottom:10px;font-family:'Inter',sans-serif;font-size:.95rem}
+.menu-item-desc{color:#2D3E50;margin-bottom:12px;line-height:1.6;font-family:'Inter',sans-serif}
+.menu-item-options{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.menu-item-option{padding:6px 12px;background:white;border:2px solid #00B894;border-radius:8px;font-size:.9rem;font-weight:600;font-family:'Inter',sans-serif}
+.menu-item-actions{display:flex;gap:12px;align-items:center;margin-top:16px}
+.menu-item-qty{display:flex;align-items:center;gap:12px;background:white;border-radius:12px;padding:8px;border:2px solid #00B894}
+.menu-item-qty button{background:#00B894;color:white;border:none;width:36px;height:36px;border-radius:8px;font-size:1.3rem;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0;transition:all .2s ease}
+.menu-item-qty button:hover{background:#55EFC4;transform:scale(1.1)}
+.menu-item-qty span{font-family:'Poppins',sans-serif;font-weight:800;min-width:36px;text-align:center;font-size:1.1rem}
+.menu-item-add{flex:1;background:linear-gradient(135deg,#00B894,#55EFC4);color:white;border:none;border-radius:12px;padding:14px 24px;font-family:'Poppins',sans-serif;font-weight:700;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .3s ease;font-size:1rem}
+.menu-item-add:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,184,148,.5)}
+.menu-item-add svg{width:20px;height:20px;flex-shrink:0}
+
+/* HIGH-TECH "ADDED TO CART" NOTIFICATION */
+.cart-notification{position:fixed;top:100px;right:-400px;background:linear-gradient(135deg,#00B894,#55EFC4);color:white;padding:20px 28px;border-radius:16px;box-shadow:0 12px 48px rgba(0,184,148,.6);z-index:1100;display:flex;align-items:center;gap:16px;font-family:'Poppins',sans-serif;font-weight:700;font-size:1.1rem;border:3px solid #55EFC4;transition:right .5s cubic-bezier(.68,-.55,.265,1.55),opacity .3s ease;opacity:0;min-width:320px}
+.cart-notification.show{right:24px;opacity:1}
+.cart-notification-icon{width:48px;height:48px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;animation:checkPop .6s cubic-bezier(.68,-.55,.265,1.55)}
+@keyframes checkPop{
+0%{transform:scale(0) rotate(-180deg)}
+50%{transform:scale(1.2) rotate(10deg)}
+100%{transform:scale(1) rotate(0deg)}
+}
+.cart-notification-icon svg{width:28px;height:28px;fill:#00B894}
+.cart-notification-text{flex:1}
+.cart-notification-title{font-size:1.1rem;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em}
+.cart-notification-subtitle{font-size:.9rem;opacity:.9;font-weight:600}
+.cart-notification-close{background:rgba(255,255,255,.2);border:none;color:white;width:32px;height:32px;border-radius:50%;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s ease;font-weight:700}
+.cart-notification-close:hover{background:rgba(255,255,255,.35);transform:rotate(90deg)}
+
+@media (max-width:768px){
+.cart-notification{right:-100%;min-width:280px;top:90px;padding:18px 24px}
+.cart-notification.show{right:16px}
+.cart-notification-title{font-size:1rem}
+.cart-notification-subtitle{font-size:.85rem}
+}
+@media (max-width:768px){
+.header-cart{right:86px;width:56px;height:56px}
+.header-cart svg{width:24px;height:24px}
+.menu-item-actions{flex-direction:column}
+.menu-item-qty,.menu-item-add{width:100%}
+.menu-modal-items{padding:20px}
+.menu-item-card{padding:20px}
+}
+
+</style>
+</head>
+<body>
+<div class="header-cart" onclick="toggleCart()">
+<svg viewBox="0 0 24 24" fill="currentColor">
+<path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+</svg>
+<span id="headerCartCount" class="header-cart-count">0</span>
+</div>
+
+<div class="hamburger" id="hamburger">
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+<div class="menu-overlay" id="menuOverlay"></div>
+
+<nav class="menu" id="menu">
+<div class="menu-header">
+<div class="menu-logo"><img src="https://cdn.prod.website-files.com/69517bf9beec33c31620c98c/6951c61d507ebcbd9204b096_ChatGPT%20Image%20Dec%2028%2C%202025%2C%2006_06_26%20PM.png" alt="Logo"></div>
+</div>
+<ul class="menu-items">
+<li><a href="#home">
+<div class="menu-item-icon"><img src="https://via.placeholder.com/54/00B894/FFFFFF?text=H" alt=""></div>
+<div class="menu-item-content">
+<span class="menu-item-text">Home</span>
+<span class="menu-item-subtext">Welcome</span>
+</div>
+</a></li>
+<li><a href="#menu">
+<div class="menu-item-icon"><img src="https://via.placeholder.com/54/00B894/FFFFFF?text=M" alt=""></div>
+<div class="menu-item-content">
+<span class="menu-item-text">Menu</span>
+<span class="menu-item-subtext">Our Selection</span>
+</div>
+</a></li>
+<li><a href="#reviews">
+<div class="menu-item-icon"><img src="https://via.placeholder.com/54/00B894/FFFFFF?text=R" alt=""></div>
+<div class="menu-item-content">
+<span class="menu-item-text">Reviews</span>
+<span class="menu-item-subtext">What People Say</span>
+</div>
+</a></li>
+<li><a href="#locations">
+<div class="menu-item-icon"><img src="https://via.placeholder.com/54/00B894/FFFFFF?text=L" alt=""></div>
+<div class="menu-item-content">
+<span class="menu-item-text">Locations</span>
+<span class="menu-item-subtext">Find Us</span>
+</div>
+</a></li>
+<li><a href="#order">
+<div class="menu-item-icon"><img src="https://via.placeholder.com/54/00B894/FFFFFF?text=O" alt=""></div>
+<div class="menu-item-content">
+<span class="menu-item-text">Order Now</span>
+<span class="menu-item-subtext">Get Fresh</span>
+</div>
+</a></li>
+</ul>
+</nav>
+
+<main>
+<section class="hero-section" id="home">
+<div class="hero-content">
+<div class="hero-logo">
+<img src="https://cdn.prod.website-files.com/69517bf9beec33c31620c98c/6951c61d507ebcbd9204b096_ChatGPT%20Image%20Dec%2028%2C%202025%2C%2006_06_26%20PM.png" alt="Mr. Donuts & Kolaches">
+</div>
+<div class="hero-title-container">
+<h1 class="hero-title">Mr. Donuts &</h1>
+<h1 class="hero-title-kolaches">Kolaches</h1>
+</div>
+<p class="hero-subtitle">Houston's Family Favorite</p>
+<p class="hero-tagline">Fresh Baked Daily • Family Owned & Operated</p>
+<div class="hero-cta-container">
+<a href="tel:2818593693" class="hero-cta">
+<div class="hero-cta-content">
+<div class="hero-cta-icon">
+<svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+</div>
+<div class="hero-cta-text">
+<span class="hero-cta-main-text">CALL NOW</span>
+<span class="hero-cta-sub-text">Order by Phone</span>
+</div>
+</div>
+</a>
+<a href="#order" class="hero-cta">
+<div class="hero-cta-content">
+<div class="hero-cta-icon">
+<svg viewBox="0 0 24 24"><path d="M17 18a5 5 0 0 1-5-5c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5zm-1-7v3l2.5 1.5.75-1.23-1.75-1.05V11H16z"/></svg>
+</div>
+<div class="hero-cta-text">
+<span class="hero-cta-main-text">ORDER ONLINE</span>
+<span class="hero-cta-sub-text">Quick & Easy</span>
+</div>
+</div>
+</a>
+</div>
+</div>
+</section>
+
+<section class="reviews-section" id="reviews">
+<div class="reviews-container">
+<div class="section-header fade-element">
+<p class="section-label">What Houston Says</p>
+<h2 class="section-title">Google Reviews</h2>
+<p class="section-subtitle">Over 500 Five-Star Reviews!</p>
+</div>
+<div class="reviews-carousel-container fade-element">
+<div class="reviews-carousel" id="reviewsCarousel">
+<div class="review-card active">
+<div class="review-stars">★★★★★</div>
+<p class="review-text">"I've been coming here for 35 years and it's still my favorite place since I was a kid. The stuffed croissants are so damn good!"</p>
+<div class="review-author">G L</div>
+<div class="review-date">A month ago</div>
+</div>
+<div class="review-card">
+<div class="review-stars">★★★★★</div>
+<p class="review-text">"The quality of their kolaches are on another level and the customer service makes Chick Fil A take notes!"</p>
+<div class="review-author">Chris Nguyen</div>
+<div class="review-date">11 months ago</div>
+</div>
+<div class="review-card">
+<div class="review-stars">★★★★★</div>
+<p class="review-text">"Best kolaches in town and friendly service! They are genuinely the best donut place I've ever been to."</p>
+<div class="review-author">Abby Sofia</div>
+<div class="review-date">4 months ago</div>
+</div>
+<div class="review-card">
+<div class="review-stars">★★★★★</div>
+<p class="review-text">"This place had some of the best donuts I've ever had anywhere! After eating two in the car, I went back for more!"</p>
+<div class="review-author">Rizwan</div>
+<div class="review-date">A year ago</div>
+</div>
+<div class="review-card">
+<div class="review-stars">★★★★★</div>
+<p class="review-text">"Better than Shipley's and Krispy Kreme. Always efficient and friendly. The best!"</p>
+<div class="review-author">Matye Lewis-Hubbard</div>
+<div class="review-date">4 years ago</div>
+</div>
+<div class="review-card">
+<div class="review-stars">★★★★★</div>
+<p class="review-text">"Family run business. Friendly and fast service! Delicious products and even have vegetarian options."</p>
+<div class="review-author">Kimberly Nguyen</div>
+<div class="review-date">3 years ago</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="menu-cards-section" id="menu">
+<div class="cards-container">
+<div class="section-header fade-element">
+<p class="section-label">Explore Our Menu</p>
+<h2 class="section-title">What We Serve</h2>
+<p class="section-subtitle">Fresh Baked Daily</p>
+</div>
+<div class="menu-grid">
+<div>
+<div class="menu-card fade-element">
+<div class="menu-card-inner">
+<div class="menu-card-front">
+<div class="menu-card-front-header">
+<div class="menu-card-front-title">Savory</div>
+<div class="menu-card-front-flip">
+<span>FLIP</span>
+<div class="flip-icon">
+<svg viewBox="0 0 24 24"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+</div>
+</div>
+</div>
+<div class="menu-image-container">
+<img src="https://cdn.prod.website-files.com/69517bf9beec33c31620c98c/6951ad377aa1a4c3ddb725c8_ChatGPT%20Image%20Dec%2028%2C%202025%2C%2004_16_42%20PM.png" alt="Savory Kolaches" class="menu-image">
+</div>
+</div>
+<div class="menu-card-back">
+<div class="menu-back-header">
+<div class="menu-back-label">Breakfast Champions</div>
+<h3 class="menu-back-title">Savory</h3>
+</div>
+<div class="menu-back-description">
+<p>• Kolaches (Sausage, Boudain, Philly)</p>
+<p>• Breakfast Croissants</p>
+<p>• Breakfast Tacos</p>
+<p>• Jumbo Kolaches</p>
+<p>• Fresh Baked Daily</p>
+</div>
+<div class="menu-back-footer">
+<p class="menu-back-hint">Click to flip back</p>
+</div>
+</div>
+</div>
+</div>
+
+<div style="text-align:center">
+<button onclick="openSavoryModal()" class="menu-external-button">
+<span>SAVORY MENU</span>
+<svg viewBox="0 0 24 24"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+</button>
+</div>
+</div>
+
+<div>
+<div class="menu-card fade-element">
+<div class="menu-card-inner">
+<div class="menu-card-front">
+<div class="menu-card-front-header">
+<div class="menu-card-front-title">Sweets</div>
+<div class="menu-card-front-flip">
+<span>FLIP</span>
+<div class="flip-icon">
+<svg viewBox="0 0 24 24"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+</div>
+</div>
+</div>
+<div class="menu-image-container">
+<img src="https://cdn.prod.website-files.com/69517bf9beec33c31620c98c/6951ae7e3c0be5bb3297e9d6_ChatGPT%20Image%20Dec%2028%2C%202025%2C%2004_25_57%20PM.png" alt="Sweet Donuts" class="menu-image">
+</div>
+</div>
+<div class="menu-card-back">
+<div class="menu-back-header">
+<div class="menu-back-label">Sweet Treats</div>
+<h3 class="menu-back-title">Sweets</h3>
+</div>
+<div class="menu-back-description">
+<p>• Classic Glazed Donuts</p>
+<p>• Cake Donuts (Chocolate, Old Fashioned)</p>
+<p>• Apple Fritters & Bear Claws</p>
+<p>• Cinnamon Rolls & Twists</p>
+<p>• Custom Letter Donuts</p>
+</div>
+<div class="menu-back-footer">
+<p class="menu-back-hint">Click to flip back</p>
+</div>
+</div>
+</div>
+</div>
+
+<div style="text-align:center">
+<button onclick="openSweetsModal()" class="menu-external-button">
+<span>SWEETS MENU</span>
+<svg viewBox="0 0 24 24"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+</button>
+</div>
+</div>
+
+<div>
+<div class="menu-card fade-element">
+<div class="menu-card-inner">
+<div class="menu-card-front">
+<div class="menu-card-front-header">
+<div class="menu-card-front-title">Drinks</div>
+<div class="menu-card-front-flip">
+<span>FLIP</span>
+<div class="flip-icon">
+<svg viewBox="0 0 24 24"><path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
+</div>
+</div>
+</div>
+<div class="menu-image-container">
+<img src="https://cdn.prod.website-files.com/69517bf9beec33c31620c98c/6951b9f955133b80da8e1236_ChatGPT%20Image%20Dec%2028%2C%202025%2C%2005_14_57%20PM.png" alt="Coffee & Drinks" class="menu-image">
+</div>
+</div>
+<div class="menu-card-back">
+<div class="menu-back-header">
+<div class="menu-back-label">Beverages</div>
+<h3 class="menu-back-title">Drinks</h3>
+</div>
+<div class="menu-back-description">
+<p>• Vietnamese Hot & Iced Coffee</p>
+<p>• Community Coffee</p>
+<p>• Boba Tea (Multiple Flavors)</p>
+<p>• Lattes & Frappes</p>
+<p>• Fresh OJ & Cold Milk</p>
+</div>
+<div class="menu-back-footer">
+<p class="menu-back-hint">Click to flip back</p>
+</div>
+</div>
+</div>
+</div>
+
+<div style="text-align:center">
+<button onclick="openDrinksModal()" class="menu-external-button">
+<span>DRINK MENU</span>
+<svg viewBox="0 0 24 24"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+</button>
+</div>
+</div>
+
+</div>
+</div>
+
+<div style="text-align:center;margin-top:clamp(56px,9vw,80px)">
+<button onclick="openFullMenu()" class="hero-cta" style="cursor:pointer;border:none">
+<div class="hero-cta-content">
+<div class="hero-cta-icon">
+<svg viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+</div>
+<div class="hero-cta-text">
+<span class="hero-cta-main-text">FULL MENU</span>
+<span class="hero-cta-sub-text">See Everything</span>
+</div>
+</div>
+</button>
+</div>
+</div>
+</section>
+
+<section class="ordering-section" id="order">
+<div class="ordering-container">
+<h2 class="ordering-title fade-element">Order Your Way</h2>
+<div class="ordering-grid">
+<div class="ordering-option fade-element">
+<div class="ordering-option-icon">
+<svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+</div>
+<h3>Call to Order</h3>
+<p>Quick phone orders for pickup. Fresh and ready when you arrive.</p>
+<a href="tel:2818593693">Call Now</a>
+</div>
+
+<div class="ordering-option fade-element">
+<div class="ordering-option-icon">
+<svg viewBox="0 0 24 24"><path d="M17 18a5 5 0 0 1-5-5c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5zm-1-7v3l2.5 1.5.75-1.23-1.75-1.05V11H16z"/></svg>
+</div>
+<h3>Online Order</h3>
+<p>Order ahead for pickup or delivery through our website.</p>
+<a href="https://order.online/store/-982842/?hideModal=true&pickup=true" target="_blank">Order Online</a>
+</div>
+
+<div class="ordering-option fade-element">
+<div class="ordering-option-icon">
+<svg viewBox="0 0 24 24"><path d="M3 7c0-1.1.9-2 2-2h14c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H5c-1.1 0-2-.9-2-2V7zm2 0v10h14V7H5zm2 2h6v2H7V9zm8 0h2v2h-2V9zM7 13h2v2H7v-2zm4 0h6v2h-6v-2z"/></svg>
+</div>
+<h3>DoorDash</h3>
+<p>Get your favorites delivered straight to your door.</p>
+<a href="https://www.doordash.com/store/mr.donuts-houston-982842/" target="_blank">Order DoorDash</a>
+</div>
+
+<div class="ordering-option fade-element">
+<div class="ordering-option-icon">
+<svg viewBox="0 0 24 24"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/></svg>
+</div>
+<h3>Caviar</h3>
+<p>Premium delivery service with white-glove treatment.</p>
+<a href="https://www.trycaviar.com/store/mr.donuts-houston-982842/1527981/" target="_blank">Order Caviar</a>
+</div>
+</div>
+</div>
+</section>
+<section class="locations-section" id="locations">
+<div class="section-container">
+<div class="section-header fade-element">
+<p class="section-label">Find Us</p>
+<h2 class="section-title">Two Locations</h2>
+<p class="section-subtitle">Serving Houston Daily</p>
+</div>
+<div class="locations-grid">
+<div class="location-card fade-element">
+<h3>Highway 6<span>Original</span></h3>
+<p>14714 Highway 6, Houston, TX 77083</p>
+<p>Mon-Fri: 3:30 AM - 1 PM<br>Sat-Sun: 3:30 AM - 2 PM</p>
+<p><a href="tel:2818593693">(281) 859-3693</a> • <a href="https://maps.google.com/?q=14714+Highway+6+Houston+TX" target="_blank">Directions</a></p>
+</div>
+<div class="location-card fade-element">
+<h3>Barker Cypress<span>Second</span></h3>
+<p>18222 FM 529, Houston, TX 77095</p>
+<p>Mon-Fri: 3:30 AM - 1 PM<br>Sat-Sun: 3:30 AM - 2 PM</p>
+<p><a href="tel:2812550303">(281) 255-0303</a> • <a href="https://maps.google.com/?q=18222+FM+529+Houston+TX" target="_blank">Directions</a></p>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer class="footer">
+<div class="footer-content">
+<div class="footer-logo">
+<img src="https://cdn.prod.website-files.com/69517bf9beec33c31620c98c/6951c61d507ebcbd9204b096_ChatGPT%20Image%20Dec%2028%2C%202025%2C%2006_06_26%20PM.png" alt="Logo">
+</div>
+<h2 class="footer-title">Mr. Donuts & Kolaches</h2>
+<p class="footer-subtitle">Houston's Family Favorite</p>
+<div class="footer-info">
+<p>14714 Highway 6, Houston, TX 77083</p>
+<p>18222 FM 529, Houston, TX 77095</p>
+<p style="margin-top:20px"><a href="tel:2818593693" class="footer-phone">(281) 859-3693</a></p>
+<p style="margin-top:14px">Mon-Sat: 3:30 AM - 2:00 PM | Sunday: Closed</p>
+</div>
+<div class="footer-credit">Crafted with precision by <a href="https://snrgweb.com" target="_blank">SNRG WEB</a></div>
+</div>
+</footer>
+
+
+
+<div id="cartNotification" class="cart-notification">
+<div class="cart-notification-icon">
+<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+</div>
+<div class="cart-notification-text">
+<div class="cart-notification-title">Added to Cart!</div>
+<div class="cart-notification-subtitle" id="notificationItem">Item added successfully</div>
+</div>
+<button onclick="hideNotification()" class="cart-notification-close">×</button>
+</div>
+
+<div id="cartOverlay" class="cart-overlay" onclick="toggleCart()"></div>
+<div id="cartSidebar" class="cart-sidebar">
+<div class="cart-sidebar-header">
+<h3>Your Order</h3>
+<button onclick="toggleCart()" class="cart-close">×</button>
+</div>
+<div id="cartItems" class="cart-items">
+<p class="cart-empty">Your cart is empty</p>
+</div>
+<div class="cart-footer">
+<div class="cart-total">
+<span>Total:</span>
+<span id="cartTotal">$0.00</span>
+</div>
+<button onclick="placeOrder()" class="cart-checkout">Call to Order</button>
+</div>
+</div>
+
+<div id="menuModal" class="menu-modal">
+<div class="menu-modal-overlay" onclick="closeModal()"></div>
+<div class="menu-modal-content">
+<button onclick="closeModal()" class="menu-modal-close">×</button>
+<div class="menu-modal-header">
+<h2>Sweets Menu</h2>
+<p>Fresh Baked Daily</p>
+</div>
+<div id="modalItems" class="menu-modal-items"></div>
+</div>
+</div>
+
+<div id="savoryModal" class="menu-modal">
+<div class="menu-modal-overlay" onclick="closeModal()"></div>
+<div class="menu-modal-content">
+<button onclick="closeModal()" class="menu-modal-close">×</button>
+<div class="menu-modal-header">
+<h2>Savory Menu</h2>
+<p>Breakfast Champions</p>
+</div>
+<div id="savoryModalItems" class="menu-modal-items"></div>
+</div>
+</div>
+
+<div id="drinksModal" class="menu-modal">
+<div class="menu-modal-overlay" onclick="closeModal()"></div>
+<div class="menu-modal-content">
+<button onclick="closeModal()" class="menu-modal-close">×</button>
+<div class="menu-modal-header">
+<h2>Drink Menu</h2>
+<p>Refreshing Beverages</p>
+</div>
+<div id="drinksModalItems" class="menu-modal-items"></div>
+</div>
+</div>
+
+<script>
+let cart=[];
+const sweetsMenu=[
+{name:'Buttermilk Cake',price:1.49,options:['Glazed','Choc. Cover','Plain','Maple Cover']},
+{name:'Cinnamon Twist',price:2.79},
+{name:'Eclair',price:2.79,options:['Choc. Cover','Maple Cover']},
+{name:'Apple Fritters',price:2.79},
+{name:'1 Dozen Donut Holes',price:2.99},
+{name:'Mix Any Donuts (Doz.)',price:14.99},
+{name:'Donut Holes',price:2.99},
+{name:'1 Dozen Sprinkled Donut Holes',price:3.49,options:['Choc. Sprinkle','Pink Sprinkle','Cinnamon Sugar']},
+{name:'Red Velvet Cake',price:1.49},
+{name:'1 Dozen Glazed',price:13.99},
+{name:'Cronut',price:2.49},
+{name:'1 Dozen Chocolate Icing',price:14.99}
+];
+
+const savoryMenu=[
+{name:'Sausage Egg Cheese Biscuit',price:4.89},
+{name:'Bacon Egg Cheese Biscuit',price:4.89},
+{name:'Bacon Egg Cheese Potato Taco',price:3.49},
+{name:'Sausage Egg Cheese Potato Taco',price:3.49},
+{name:'Potato Egg Cheese Taco',price:3.49},
+{name:'Spicy Boudin Kolache',price:4.79},
+{name:'Jumbo Sausage Cheese Croissant',price:4.79},
+{name:'Sausage/Ham/Bacon with Egg & Cheese',price:5.59,options:['Sausage','Ham','Bacon']},
+{name:'Chopped Ham & Swiss Cheese Croissant',price:4.79,options:['Regular','With Jalapeño']},
+{name:'Jumbo Jalapeño Sausage Cheese Croissant',price:4.79},
+{name:'Sausage Egg & Cheese Kolache Bun',price:4.79},
+{name:'Bacon Egg & Cheese Kolache Bun',price:4.79},
+{name:'Ham Egg & Cheese Kolache Bun',price:4.79},
+{name:'Barbecue Brisket Kolache Bun',price:4.79},
+{name:'Philly Cheese Steak Kolache Bun',price:4.79},
+{name:'Jalapeño Popper Kolache Bun',price:4.79},
+{name:'Sausage Gravy Kolache Bun',price:4.79},
+{name:'Chicken Swiss Cheese Kolache Bun',price:4.79}
+];
+
+const drinksMenu=[
+{name:'Hiland Milk',price:3.29},
+{name:'Minute Maid Juice 12oz',price:3.49,options:['Orange','Apple','Cranberry Grape','Cranberry Apple']},
+{name:'Soda 20oz',price:3.49,options:['Coke','Diet Coke','Sprite','Orange Fanta','Dr Pepper']},
+{name:'Vitamin Water',price:3.49,options:['Dragon Fruit','Tropical Citrus','Acai-Blueberry-Pomegranate']},
+{name:'Energy Drink 16oz',price:3.99,options:['Monster Energy','Bang Energy']},
+{name:'Starbucks Frappuccino 13.7oz',price:5.99,options:['Coffee','Mocha','Caramel','Vanilla']},
+{name:'Snapple 20oz',price:3.49,options:['Kiwi Strawberry','Fruit Punch','Apple']},
+{name:'Nesquick 14oz',price:3.49},
+{name:'Gatorade 20oz',price:2.99,options:['Red','Orange','Yellow','Blue','White']},
+{name:'Energy Drink 12oz',price:4.99}
+];
+let currentMenu='sweets';
+function renderMenuItems(menuArray,containerId,menuType){
+currentMenu=menuType;
+const container=document.getElementById(containerId);
+container.innerHTML=menuArray.map((item,i)=>`
+<div class="menu-item-card">
+<div class="menu-item-header">
+<div class="menu-item-title">${item.name}</div>
+<div class="menu-item-price">$${item.price.toFixed(2)}</div>
+</div>
+
+${item.desc?`<div class="menu-item-desc">${item.desc}</div>`:''}
+${item.options?`<div class="menu-item-options">${item.options.map(o=>`<span class="menu-item-option">${o}</span>`).join('')}</div>`:''}
+<div class="menu-item-actions">
+<div class="menu-item-qty">
+<button onclick="changeQty(${i},-1,'${menuType}')">−</button>
+<span id="qty${menuType}${i}">1</span>
+<button onclick="changeQty(${i},1,'${menuType}')">+</button>
+</div>
+<button onclick="addToCart(${i},'${menuType}')" class="menu-item-add">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 9h2V6h3V4h-3V1h-2v3H8v2h3v3zm-4 9c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zm-9.83-3.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.86-7.01L19.42 4h-.01l-1.1 2-2.76 5H8.53l-.13-.27L6.16 6l-.95-2-.94-2H1v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.13 0-.25-.11-.25-.25z"/></svg>
+Add to Cart
+</button>
+</div>
+</div>
+`).join('');
+}
+function openSweetsModal(){renderMenuItems(sweetsMenu,'modalItems','sweets');document.getElementById('menuModal').classList.add('active');document.body.style.overflow='hidden'}
+function openSavoryModal(){renderMenuItems(savoryMenu,'savoryModalItems','savory');document.getElementById('savoryModal').classList.add('active');document.body.style.overflow='hidden'}
+function openDrinksModal(){renderMenuItems(drinksMenu,'drinksModalItems','drinks');document.getElementById('drinksModal').classList.add('active');document.body.style.overflow='hidden'}
+function openFullMenu(){alert('Please use the Savory, Sweets, or Drinks menu buttons above to browse our complete selection!');}
+function closeModal(){document.getElementById('menuModal').classList.remove('active');document.getElementById('savoryModal').classList.remove('active');document.getElementById('drinksModal').classList.remove('active');document.body.style.overflow=''}
+function changeQty(i,d,menuType){const el=document.getElementById('qty'+menuType+i);let q=parseInt(el.textContent);q=Math.max(1,q+d);el.textContent=q}
+function addToCart(i,menuType){const menus={sweets:sweetsMenu,savory:savoryMenu,drinks:drinksMenu};const item=menus[menuType][i],q=parseInt(document.getElementById('qty'+menuType+i).textContent);const existing=cart.find(c=>c.name===item.name);if(existing){existing.qty+=q}else{cart.push({name:item.name,price:item.price,qty:q})}document.getElementById('qty'+menuType+i).textContent='1';updateCart();showNotification(item.name,q)}
+function updateCart(){const items=document.getElementById('cartItems'),total=cart.reduce((s,i)=>s+i.price*i.qty,0),count=cart.reduce((s,i)=>s+i.qty,0);document.getElementById('cartTotal').textContent='$'+total.toFixed(2);const badge=document.getElementById('headerCartCount');badge.textContent=count;badge.classList.toggle('active',count>0);items.innerHTML=cart.length===0?'<p class="cart-empty">Your cart is empty</p>':cart.map((item,i)=>`
+<div class="cart-item">
+<div class="cart-item-header">
+<div class="cart-item-name">${item.name}</div>
+<button onclick="removeItem(${i})" class="cart-item-remove">×</button>
+</div>
+<div class="cart-item-details">
+<div class="cart-item-qty">
+<button onclick="updateQty(${i},-1)">−</button>
+<span>${item.qty}</span>
+<button onclick="updateQty(${i},1)">+</button>
+</div>
+<div class="cart-item-price">$${(item.price*item.qty).toFixed(2)}</div>
+</div>
+</div>
+`).join('')}
+function removeItem(i){cart.splice(i,1);updateCart()}
+function updateQty(i,d){cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);updateCart()}
+function toggleCart(){const s=document.getElementById('cartSidebar'),o=document.getElementById('cartOverlay');s.classList.toggle('active');o.classList.toggle('active');document.body.style.overflow=s.classList.contains('active')?'hidden':''}
+function placeOrder(){if(cart.length===0){alert('Your cart is empty!');return}const summary=cart.map(i=>`${i.qty}x ${i.name}`).join(', '),total=cart.reduce((s,i)=>s+i.price*i.qty,0);if(confirm(`Call to place order?\n\nOrder: ${summary}\nTotal: $${total.toFixed(2)}\n\nWe'll call (281) 859-3693`)){window.location.href='tel:2818593693'}}
+
+let notificationTimeout;
+function showNotification(itemName,qty){const notification=document.getElementById('cartNotification'),itemText=document.getElementById('notificationItem');itemText.textContent=`${qty}x ${itemName}`;clearTimeout(notificationTimeout);notification.classList.add('show');notificationTimeout=setTimeout(()=>{notification.classList.remove('show')},3500)}
+function hideNotification(){const notification=document.getElementById('cartNotification');clearTimeout(notificationTimeout);notification.classList.remove('show')}
+</script>
+
+<script>
+(()=>{'use strict';
+
+// SCROLL TO TOP ON PAGE LOAD
+window.addEventListener('load',()=>{window.scrollTo(0,0)});
+history.scrollRestoration='manual';
+
+// Hamburger menu
+const h=document.getElementById('hamburger'),m=document.getElementById('menu'),o=document.getElementById('menuOverlay'),i=document.querySelectorAll('.menu-items a');
+function open(){h.classList.add('active');m.classList.add('active');o.classList.add('active');document.body.style.overflow='hidden'}
+function close(){h.classList.remove('active');m.classList.remove('active');o.classList.remove('active');document.body.style.overflow=''}
+h.addEventListener('click',()=>h.classList.contains('active')?close():open());
+o.addEventListener('click',close);
+i.forEach(a=>a.addEventListener('click',close));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&m.classList.contains('active'))close()});
+
+// Flip cards
+document.querySelectorAll('.menu-card').forEach(card=>{card.addEventListener('click',function(){this.classList.toggle('flipped')})});
+
+// Fade elements
+const ob=new IntersectionObserver(e=>{e.forEach(t=>{if(t.isIntersecting){t.target.classList.add('visible');ob.unobserve(t.target)}})},{threshold:0.1,rootMargin:'0px 0px -100px 0px'});
+document.querySelectorAll('.fade-element').forEach(el=>ob.observe(el));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',function(e){e.preventDefault();const t=document.querySelector(this.getAttribute('href'));if(t){const offset=110;const position=t.getBoundingClientRect().top+window.pageYOffset-offset;window.scrollTo({top:position,behavior:'smooth'})}}));
+
+// HIGH-TECH REVIEW CAROUSEL - 2.25 SECONDS EACH WITH FADE
+const slides=document.querySelectorAll('.review-card');
+let currentSlide=0;
+function rotateReviews(){
+slides.forEach(s=>s.classList.remove('active'));
+currentSlide=(currentSlide+1)%slides.length;
+slides[currentSlide].classList.add('active');
+}
+setInterval(rotateReviews,2250);
+})();
+</script>
+</body>
+</html>
